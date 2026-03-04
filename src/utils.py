@@ -7,6 +7,7 @@ import os
 logs = []
 
 def eye_aspect_ratio(eye):
+    """Calculate Eye Aspect Ratio (EAR) from 6 eye landmarks."""
     A = np.linalg.norm(eye[1] - eye[5])
     B = np.linalg.norm(eye[2] - eye[4])
     C = np.linalg.norm(eye[0] - eye[3])
@@ -14,9 +15,15 @@ def eye_aspect_ratio(eye):
     return ear
 
 def mouth_aspect_ratio(mouth):
-    A = np.linalg.norm(mouth[13] - mouth[19])
-    B = np.linalg.norm(mouth[14] - mouth[18])
-    C = np.linalg.norm(mouth[12] - mouth[16])
+    """Calculate Mouth Aspect Ratio (MAR) from 8 mouth landmarks.
+    Landmarks: [78, 81, 13, 311, 308, 402, 14, 178]
+    Index:       0   1   2    3    4    5   6    7
+    """
+    # Vertical distances
+    A = np.linalg.norm(mouth[1] - mouth[7])  # 81 - 178
+    B = np.linalg.norm(mouth[3] - mouth[5])  # 311 - 402
+    # Horizontal distance
+    C = np.linalg.norm(mouth[0] - mouth[4])  # 78 - 308
     mar = (A + B) / (2.0 * C)
     return mar
 
